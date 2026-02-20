@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caribbean Postal AI Wiki</title>
+<style>
+  :root {
+    --navy: #1a2744;
+    --blue: #2c5282;
+    --sky: #ebf4ff;
+    --gold: #d69e2e;
+    --gold-light: #fefcbf;
+    --text: #2d3748;
+    --text-light: #718096;
+    --white: #ffffff;
+    --gray-50: #f7fafc;
+    --gray-100: #edf2f7;
+    --gray-200: #e2e8f0;
+    --gray-700: #4a5568;
+    --green: #38a169;
+    --green-light: #f0fff4;
+    --orange: #dd6b20;
+    --orange-light: #fffaf0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--text);
+    line-height: 1.6;
+    background: var(--gray-50);
+  }
+
+  /* Navigation */
+  nav {
+    background: var(--navy);
+    color: var(--white);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .nav-brand {
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 0.9rem 0;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  .nav-brand span { color: var(--gold); }
+
+  .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+
+  .nav-links a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    padding: 0.9rem 0.85rem;
+    font-size: 0.88rem;
+    display: block;
+    transition: color 0.2s, background 0.2s;
+    white-space: nowrap;
+  }
+
+  .nav-links a:hover, .nav-links a:focus {
+    color: var(--white);
+    background: rgba(255,255,255,0.08);
+  }
+
+  /* Hamburger */
+  .nav-toggle { display: none; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; padding: 0.5rem; }
+
+  @media (max-width: 768px) {
+    .nav-toggle { display: block; }
+    .nav-links { display: none; width: 100%; flex-direction: column; }
+    .nav-links.open { display: flex; }
+    .nav-links a { padding: 0.75rem 0; border-top: 1px solid rgba(255,255,255,0.07); }
+  }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+    color: var(--white);
+    padding: 4rem 1.5rem 3.5rem;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+    line-height: 1.15;
+  }
+
+  .hero h1 span { color: var(--gold); }
+
+  .hero p {
+    font-size: 1.15rem;
+    color: rgba(255,255,255,0.85);
+    max-width: 680px;
+    margin: 0 auto 2rem;
+  }
+
+  .hero-badges {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 2rem;
+    padding: 0.4rem 1.1rem;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.9);
+  }
+
+  /* Sections */
+  .section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3.5rem 1.5rem;
+  }
+
+  .section-alt { background: var(--white); }
+
+  .section h2 {
+    font-size: 1.8rem;
+    color: var(--navy);
+    margin-bottom: 0.4rem;
+    font-weight: 700;
+  }
+
+  .section .subtitle {
+    color: var(--text-light);
+    font-size: 1.05rem;
+    margin-bottom: 2rem;
+  }
+
+  /* Cards */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 10px;
+    padding: 1.75rem;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+
+  .card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+  }
+
+  .card h3 {
+    font-size: 1.15rem;
+    color: var(--blue);
+    margin-bottom: 0.3rem;
+  }
+
+  .card .card-type {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-light);
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+  }
+
+  .card p { color: var(--gray-700); font-size: 0.95rem; margin-bottom: 0.75rem; }
+
+  .card a.btn {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    background: var(--blue);
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+
+  .card a.btn:hover { background: var(--navy); }
+
+  .card .price {
+    display: inline-block;
+    font-size: 0.8rem;
+    padding: 0.15rem 0.55rem;
+    border-radius: 4px;
+    font-weight: 600;
+    margin-left: 0.5rem;
+  }
+
+  .price-free { background: var(--green-light); color: var(--green); }
+  .price-paid { background: var(--orange-light); color: var(--orange); }
+
+  /* CREATIVO */
+  .creativo-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+  }
+
+  .creativo-table th, .creativo-table td {
+    text-align: left;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--gray-200);
+  }
+
+  .creativo-table th {
+    background: var(--navy);
+    color: var(--white);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .creativo-table tr:nth-child(even) { background: var(--gray-50); }
+
+  .creativo-table .letter {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--blue);
+    width: 2.5rem;
+    text-align: center;
+  }
+
+  .creativo-table .dim { font-weight: 700; color: var(--navy); }
+
+  /* Prompt block */
+  .prompt-block {
+    background: var(--navy);
+    color: #e2e8f0;
+    border-radius: 10px;
+    padding: 1.75rem;
+    margin: 1.5rem 0;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    overflow-x: auto;
+    position: relative;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .prompt-block .label {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 0.15rem 0.6rem;
+    border-radius: 3px;
+    margin-bottom: 0.75rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .prompt-dim { color: var(--gold); font-weight: 700; }
+
+  /* Steps / Timeline */
+  .steps { counter-reset: step; }
+
+  .step {
+    display: flex;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+    align-items: flex-start;
+  }
+
+  .step-num {
+    flex-shrink: 0;
+    width: 2.8rem;
+    height: 2.8rem;
+    background: var(--blue);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.1rem;
+  }
+
+  .step-content h3 {
+    font-size: 1.1rem;
+    color: var(--navy);
+    margin-bottom: 0.25rem;
+  }
+
+  .step-content p { color: var(--gray-700); font-size: 0.95rem; }
+  .step-content .tool-name { color: var(--blue); font-weight: 600; }
+
+  /* Use cases */
+  .use-case-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .use-case {
+    background: var(--white);
+    border-left: 4px solid var(--blue);
+    padding: 1.25rem 1.5rem;
+    border-radius: 0 8px 8px 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+
+  .use-case h4 { color: var(--navy); margin-bottom: 0.3rem; font-size: 1rem; }
+  .use-case p { color: var(--gray-700); font-size: 0.9rem; margin-bottom: 0.4rem; }
+  .use-case .uc-prompt { color: var(--blue); font-style: italic; font-size: 0.88rem; }
+
+  /* Comparison table */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.92rem;
+  }
+
+  .compare-table th, .compare-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--gray-200);
+    text-align: left;
+  }
+
+  .compare-table th {
+    background: var(--sky);
+    color: var(--navy);
+    font-weight: 700;
+  }
+
+  .compare-table tr:hover { background: var(--gray-50); }
+
+  /* Evolution levels */
+  .level-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .level-item {
+    text-align: center;
+    padding: 1.25rem 1rem;
+    background: var(--white);
+    border-radius: 10px;
+    border: 1px solid var(--gray-200);
+  }
+
+  .level-num {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--blue);
+    line-height: 1;
+  }
+
+  .level-name {
+    font-weight: 700;
+    color: var(--navy);
+    font-size: 0.9rem;
+    margin: 0.3rem 0;
+  }
+
+  .level-desc {
+    font-size: 0.82rem;
+    color: var(--text-light);
+  }
+
+  /* Resources list */
+  .resource-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .resource-list li a {
+    display: block;
+    padding: 0.85rem 1.1rem;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    color: var(--blue);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .resource-list li a:hover {
+    border-color: var(--blue);
+    box-shadow: 0 2px 8px rgba(44,82,130,0.12);
+  }
+
+  .resource-list li a small {
+    display: block;
+    font-weight: 400;
+    color: var(--text-light);
+    font-size: 0.82rem;
+    margin-top: 0.15rem;
+  }
+
+  /* Footer */
+  footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    font-size: 0.85rem;
+    line-height: 1.8;
+  }
+
+  footer strong { color: var(--gold); }
+
+  /* Highlight box */
+  .highlight {
+    background: var(--gold-light);
+    border-left: 4px solid var(--gold);
+    padding: 1.25rem 1.5rem;
+    border-radius: 0 8px 8px 0;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+  }
+
+  .highlight strong { color: var(--navy); }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 1.7rem; }
+    .section { padding: 2.5rem 1rem; }
+    .card-grid, .use-case-grid { grid-template-columns: 1fr; }
+    .level-grid { grid-template-columns: repeat(2, 1fr); }
+    .creativo-table { font-size: 0.85rem; }
+    .creativo-table th, .creativo-table td { padding: 0.6rem 0.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-brand">Caribbean Postal <span>AI</span> Wiki</div>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle navigation">&#9776;</button>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#evolution">AI Evolution</a></li>
+      <li><a href="#tools">Tools</a></li>
+      <li><a href="#use-cases">Use Cases</a></li>
+      <li><a href="#creativo">CREATIVO</a></li>
+      <li><a href="#getting-started">Getting Started</a></li>
+      <li><a href="#resources">Resources</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="home">
+  <h1>AI for <span>Caribbean Postal Services</span></h1>
+  <p>A practical reference for postal leaders exploring artificial intelligence &mdash; tools, frameworks, use cases, and prompts you can use today.</p>
+  <div class="hero-badges">
+    <span class="badge">MBTU &times; Caribbean Postal Union</span>
+    <span class="badge">February 2026</span>
+    <span class="badge">Built with HA Research</span>
+  </div>
+</section>
+
+<!-- AI Evolution -->
+<section class="section-alt" id="evolution">
+  <div class="section">
+    <h2>The AI Evolution</h2>
+    <p class="subtitle">Five levels of capability &mdash; each one building on the last.</p>
+
+    <div class="level-grid">
+      <div class="level-item">
+        <div class="level-num">1</div>
+        <div class="level-name">Large Language Models</div>
+        <div class="level-desc">AI that answers in natural language</div>
+      </div>
+      <div class="level-item">
+        <div class="level-num">2</div>
+        <div class="level-name">Retrieval (RAG)</div>
+        <div class="level-desc">AI that finds and cites sources</div>
+      </div>
+      <div class="level-item">
+        <div class="level-num">3</div>
+        <div class="level-name">Multimodal AI</div>
+        <div class="level-desc">AI that sees, hears, and connects</div>
+      </div>
+      <div class="level-item">
+        <div class="level-num">4</div>
+        <div class="level-name">AI Agents</div>
+        <div class="level-desc">AI that plans, acts, and collaborates</div>
+      </div>
+      <div class="level-item">
+        <div class="level-num">5</div>
+        <div class="level-name">Agentic Architecture</div>
+        <div class="level-desc">AI that scales with memory and governance</div>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <strong>The through-line:</strong> One question &mdash; <em>"What are the main challenges facing Caribbean postal services regarding terminal dues and cost recovery?"</em> &mdash; travels through all five levels, gaining depth, sources, and actionability at each step.
+    </div>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Level</th>
+          <th>What It Adds</th>
+          <th>Example Tool</th>
+          <th>Postal Application</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. LLMs</strong></td>
+          <td>Natural language answers, reasoning</td>
+          <td>ChatGPT, Claude, Gemini</td>
+          <td>Drafting briefings, brainstorming policy options</td>
+        </tr>
+        <tr>
+          <td><strong>2. RAG</strong></td>
+          <td>Real sources, citations, current data</td>
+          <td>Perplexity, SciSpace, Elicit</td>
+          <td>Evidence-based policy research with citations</td>
+        </tr>
+        <tr>
+          <td><strong>3. Multimodal</strong></td>
+          <td>Cross-document synthesis, audio, images</td>
+          <td>NotebookLM, GPT-4 Vision</td>
+          <td>Synthesizing 200 pages of UPU reports into a 10-min audio briefing</td>
+        </tr>
+        <tr>
+          <td><strong>4. Agents</strong></td>
+          <td>Autonomous planning, multi-step execution</td>
+          <td>Deep Research, Claude agents</td>
+          <td>15-page cited research reports in 10 minutes</td>
+        </tr>
+        <tr>
+          <td><strong>5. Architecture</strong></td>
+          <td>Memory, governance, federation</td>
+          <td>Horizons Architecture</td>
+          <td>Institutional AI that remembers across sessions</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Tools -->
+<section id="tools">
+  <div class="section">
+    <h2>AI Tools for Postal Research</h2>
+    <p class="subtitle">Every tool demonstrated in the masterclass &mdash; with direct links.</p>
+
+    <div class="card-grid">
+
+      <div class="card">
+        <div class="card-type">Discovery &amp; Search</div>
+        <h3>Perplexity AI <span class="price price-free">Free</span></h3>
+        <p>AI-powered search with inline citations. Use Academic Mode for research-grade answers with sources you can verify.</p>
+        <a href="https://perplexity.ai" target="_blank" rel="noopener" class="btn">Open Perplexity</a>
+      </div>
+
+      <div class="card">
+        <div class="card-type">Literature Review</div>
+        <h3>Consensus <span class="price price-free">Free</span></h3>
+        <p>Search academic papers and see what researchers agree on. The Consensus Meter shows agreement levels across studies.</p>
+        <a href="https://consensus.app" target="_blank" rel="noopener" class="btn">Open Consensus</a>
+      </div>
+
+      <div class="card">
+        <div class="card-type">Literature Review</div>
+        <h3>Elicit <span class="price price-free">Free</span></h3>
+        <p>AI research assistant that reads papers for you. Extracts methodology, findings, and sample size automatically.</p>
+        <a href="https://elicit.com" target="_blank" rel="noopener" class="btn">Open Elicit</a>
+      </div>
+
+      <div class="card">
+        <div class="card-type">Literature Review</div>
+        <h3>SciSpace <span class="price price-free">Free</span></h3>
+        <p>Search millions of academic papers. AI extracts specific data, methodology, and findings from each source.</p>
+        <a href="https://typeset.io" target="_blank" rel="noopener" class="btn">Open SciSpace</a>
+      </div>
+
+      <div class="card">
+        <div class="card-type">Cross-referencing &amp; Synthesis</div>
+        <h3>Google NotebookLM <span class="price price-free">Free</span></h3>
+        <p>Upload your documents and ask questions grounded <strong>only</strong> in your sources. Generates Audio Overviews &mdash; podcast-style summaries of your documents.</p>
+        <a href="https://notebooklm.google.com" target="_blank" rel="noopener" class="btn">Open NotebookLM</a>
+      </div>
+
+      <div class="card">
+        <div class="card-type">Autonomous Research</div>
+        <h3>ChatGPT Deep Research <span class="price price-paid">$20/mo</span></h3>
+        <p>Give it a complex question and it autonomously searches 100+ sources, producing a full research report with citations in ~10 minutes.</p>
+        <a href="https://chatgpt.com" target="_blank" rel="noopener" class="btn">Open ChatGPT</a>
+      </div>
+
+      <div class="card">
+        <div class="card-type">Autonomous Research</div>
+        <h3>Gemini Deep Research <span class="price price-paid">Paid</span></h3>
+        <p>Google's autonomous research agent. Searches the web, reads documents, and produces structured reports with sources.</p>
+        <a href="https://gemini.google.com" target="_blank" rel="noopener" class="btn">Open Gemini</a>
+      </div>
+
+      <div class="card">
+        <div class="card-type">General AI Assistant</div>
+        <h3>Claude <span class="price price-free">Free / $20</span></h3>
+        <p>Anthropic's AI assistant. Excellent for analysis, writing, coding, and extended reasoning. Supports document upload and tool use.</p>
+        <a href="https://claude.ai" target="_blank" rel="noopener" class="btn">Open Claude</a>
+      </div>
+
+      <div class="card">
+        <div class="card-type">Discovery</div>
+        <h3>Semantic Scholar <span class="price price-free">Free</span></h3>
+        <p>AI-powered academic search engine with 200M+ papers. Identifies influential papers and key citations.</p>
+        <a href="https://www.semanticscholar.org" target="_blank" rel="noopener" class="btn">Open Semantic Scholar</a>
+      </div>
+
+      <div class="card">
+        <div class="card-type">Discovery</div>
+        <h3>Connected Papers <span class="price price-free">Free</span></h3>
+        <p>Visual tool to explore academic papers. Enter one paper, see a graph of related works &mdash; discover connections you'd miss.</p>
+        <a href="https://www.connectedpapers.com" target="_blank" rel="noopener" class="btn">Open Connected Papers</a>
+      </div>
+
+      <div class="card">
+        <div class="card-type">Discovery</div>
+        <h3>ResearchRabbit <span class="price price-free">Free</span></h3>
+        <p>Add papers to collections and discover related work. Like Spotify recommendations, but for academic literature.</p>
+        <a href="https://www.researchrabbit.ai" target="_blank" rel="noopener" class="btn">Open ResearchRabbit</a>
+      </div>
+
+      <div class="card">
+        <div class="card-type">Integrated System</div>
+        <h3>Horizons Architecture <span class="price price-free">Open</span></h3>
+        <p>AI-native research system with persistent memory, governance, and 6-dimensional structure. The framework that connects all tools into institutional intelligence.</p>
+        <a href="https://github.com/ha-eb" target="_blank" rel="noopener" class="btn">Learn More</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Use Cases -->
+<section class="section-alt" id="use-cases">
+  <div class="section">
+    <h2>Postal Use Cases</h2>
+    <p class="subtitle">Real questions you can ask AI right now &mdash; with prompts ready to copy.</p>
+
+    <div class="use-case-grid">
+
+      <div class="use-case">
+        <h4>Terminal Dues Analysis</h4>
+        <p>Understand the cost gap between what you receive and what processing actually costs.</p>
+        <p class="uc-prompt">"How have similar SIDS countries optimized their UPU terminal dues position since the 2024 Riyadh Congress?"</p>
+      </div>
+
+      <div class="use-case">
+        <h4>Cost Management</h4>
+        <p>Model your per-parcel processing cost and identify the biggest cost drivers.</p>
+        <p class="uc-prompt">"What cost allocation models work best for postal processing centers in developing countries?"</p>
+      </div>
+
+      <div class="use-case">
+        <h4>E-commerce Bypass</h4>
+        <p>Understand how e-commerce platforms are shipping outside postal networks.</p>
+        <p class="uc-prompt">"What strategies have postal services used to recapture e-commerce parcel volume from private carriers?"</p>
+      </div>
+
+      <div class="use-case">
+        <h4>New Revenue Streams</h4>
+        <p>Explore digital services and financial inclusion opportunities.</p>
+        <p class="uc-prompt">"What digital postal services have generated new revenue in developing countries in 2023-2026?"</p>
+      </div>
+
+      <div class="use-case">
+        <h4>Last-Mile Delivery</h4>
+        <p>Find cost-effective delivery models for island and rural geographies.</p>
+        <p class="uc-prompt">"What are the most cost-effective rural last-mile delivery models for small island developing states?"</p>
+      </div>
+
+      <div class="use-case">
+        <h4>Delegation Briefings</h4>
+        <p>Prepare evidence-based position papers for UPU meetings.</p>
+        <p class="uc-prompt">"Analyze how Caribbean nations have approached UPU terminal dues negotiations. Include strategies used and outcomes achieved. Focus on 2020-2026."</p>
+      </div>
+
+      <div class="use-case">
+        <h4>Financial Inclusion</h4>
+        <p>Leverage postal networks for banking and digital payments.</p>
+        <p class="uc-prompt">"How have postal networks been used for financial inclusion in the Caribbean? What models have scaled?"</p>
+      </div>
+
+      <div class="use-case">
+        <h4>Competitive Intelligence</h4>
+        <p>Understand what peer postal services are doing differently.</p>
+        <p class="uc-prompt">"Compare the digital transformation strategies of Jamaica Post, Trinidad &amp; Tobago Post, and Barbados Post. What can others learn?"</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CREATIVO -->
+<section id="creativo">
+  <div class="section">
+    <h2>The CREATIVO Framework</h2>
+    <p class="subtitle">Eight dimensions to structure your communication with AI. Better prompts &rarr; better results.</p>
+
+    <table class="creativo-table">
+      <thead>
+        <tr>
+          <th style="width:3rem"></th>
+          <th>Dimension</th>
+          <th>What It Does</th>
+          <th>Postal Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="letter">C</td>
+          <td class="dim">Context</td>
+          <td>The background &mdash; the <em>why</em> behind your question</td>
+          <td>"I work at a Caribbean postal service classified as Group 3 under the UPU terminal dues system."</td>
+        </tr>
+        <tr>
+          <td class="letter">R</td>
+          <td class="dim">Role</td>
+          <td>What expertise the AI should adopt</td>
+          <td>"Act as a senior policy research analyst specializing in international postal economics."</td>
+        </tr>
+        <tr>
+          <td class="letter">E</td>
+          <td class="dim">Example</td>
+          <td>Show it what good output looks like</td>
+          <td>"Structure findings like a delegation briefing: executive summary, evidence, comparative analysis, recommendations."</td>
+        </tr>
+        <tr>
+          <td class="letter">A</td>
+          <td class="dim">Audience</td>
+          <td>Who the output is for &mdash; adjusts complexity and tone</td>
+          <td>"Senior postal officials and government delegates who understand the sector but need data-backed arguments."</td>
+        </tr>
+        <tr>
+          <td class="letter">T</td>
+          <td class="dim">Task</td>
+          <td>The specific action &mdash; a clear verb</td>
+          <td>"Analyze whether current UPU terminal dues rates cover the actual cost of processing inbound international parcels."</td>
+        </tr>
+        <tr>
+          <td class="letter">I</td>
+          <td class="dim">Instructions</td>
+          <td>Rules, constraints, format, what NOT to do</td>
+          <td>"Use only verifiable sources. Compare at least 3 peer countries. Maximum 3 pages. Formal tone."</td>
+        </tr>
+        <tr>
+          <td class="letter">V</td>
+          <td class="dim">Voice</td>
+          <td>How should it sound?</td>
+          <td>"Diplomatic, evidence-based, authoritative &mdash; suitable for an international delegation document."</td>
+        </tr>
+        <tr>
+          <td class="letter">O</td>
+          <td class="dim">Objective</td>
+          <td>The ultimate goal &mdash; what success looks like</td>
+          <td>"Produce a briefing paper strong enough to influence the terminal dues reclassification discussion."</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top:2.5rem; margin-bottom:1rem; color:var(--navy);">Full CREATIVO Prompt Example</h3>
+
+    <div class="prompt-block"><span class="label">CREATIVO Prompt &mdash; Terminal Dues Briefing</span>
+
+<span class="prompt-dim">C &mdash; CONTEXT:</span>
+I work at a Caribbean postal service classified as Group 3
+under the UPU terminal dues system. Our inbound parcel volumes
+have grown 40% in 3 years, but terminal dues revenue has not
+kept pace with processing costs. We are preparing for a UPU
+regional meeting on reclassification.
+
+<span class="prompt-dim">R &mdash; ROLE:</span>
+Act as a senior policy research analyst specializing in
+international postal economics and UPU regulatory frameworks.
+
+<span class="prompt-dim">E &mdash; EXAMPLE:</span>
+Structure findings like a delegation briefing: executive summary,
+evidence with data points, comparative analysis with peer
+countries, and actionable recommendations.
+
+<span class="prompt-dim">A &mdash; AUDIENCE:</span>
+Senior postal officials and government delegates who understand
+the sector but need data-backed arguments for negotiation.
+
+<span class="prompt-dim">T &mdash; TASK:</span>
+Research and analyze whether current UPU terminal dues rates
+cover the actual cost of processing inbound international parcels
+for Caribbean SIDS countries, and recommend a negotiation strategy.
+
+<span class="prompt-dim">I &mdash; INSTRUCTIONS:</span>
+- Use only verifiable sources with citations
+- Include specific cost/revenue data where available
+- Compare at least 3 peer countries in similar positions
+- Maximum 3 pages for the main briefing
+- Formal, institutional tone throughout
+
+<span class="prompt-dim">V &mdash; VOICE:</span>
+Diplomatic, evidence-based, authoritative &mdash; suitable for
+an international delegation document.
+
+<span class="prompt-dim">O &mdash; OBJECTIVE:</span>
+Produce a briefing paper strong enough to influence the
+terminal dues reclassification discussion at the upcoming
+UPU regional meeting.</div>
+
+    <div class="highlight">
+      <strong>Key insight:</strong> The same question with CREATIVO produces dramatically better results. The framework works with <em>any</em> AI tool &mdash; ChatGPT, Claude, Gemini, Perplexity. It&rsquo;s not about the tool. It&rsquo;s about how you communicate with it.
+    </div>
+
+  </div>
+</section>
+
+<!-- Getting Started -->
+<section class="section-alt" id="getting-started">
+  <div class="section">
+    <h2>Getting Started</h2>
+    <p class="subtitle">A step-by-step workflow you can follow tomorrow morning.</p>
+
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Understand the Landscape <small>(5 min)</small></h3>
+          <p>Open <span class="tool-name">Perplexity AI</span> (Academic Mode). Ask your research question in plain language. You'll get a structured answer with cited sources. Copy the key findings.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Analyze Your Own Documents <small>(15 min)</small></h3>
+          <p>Open <span class="tool-name">Google NotebookLM</span>. Upload your internal reports, UPU documents, and financial data. Ask cross-referencing questions. Generate an Audio Overview for your team.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Generate a Research Report <small>(10 min)</small></h3>
+          <p>Open <span class="tool-name">ChatGPT Deep Research</span> or <span class="tool-name">Gemini Deep Research</span>. Paste a detailed prompt (use CREATIVO). The AI autonomously searches 100+ sources and produces a full report with citations.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>Build Your Argument <small>(20 min)</small></h3>
+          <p>Combine the outputs from Steps 1&ndash;3. Use <span class="tool-name">Claude</span> or <span class="tool-name">ChatGPT</span> to draft your briefing paper, position document, or presentation. Every claim is sourced. Every comparison is documented.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Step</th>
+          <th>Tool</th>
+          <th>Time</th>
+          <th>Output</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1. Landscape</td>
+          <td>Perplexity</td>
+          <td>5 min</td>
+          <td>Sourced answers to key questions</td>
+        </tr>
+        <tr>
+          <td>2. Your data</td>
+          <td>NotebookLM</td>
+          <td>15 min</td>
+          <td>Document synthesis + audio briefing</td>
+        </tr>
+        <tr>
+          <td>3. Research report</td>
+          <td>Deep Research</td>
+          <td>10 min</td>
+          <td>15&ndash;20 page cited report</td>
+        </tr>
+        <tr>
+          <td>4. Briefing paper</td>
+          <td>Claude / ChatGPT</td>
+          <td>20 min</td>
+          <td>2-page delegation brief</td>
+        </tr>
+        <tr style="font-weight:700; background:var(--sky);">
+          <td>Total</td>
+          <td></td>
+          <td>~50 min</td>
+          <td>Complete briefing package</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="highlight">
+      <strong>Before AI:</strong> 4&ndash;6 weeks + external consultant ($15,000+)<br>
+      <strong>With AI:</strong> One afternoon. Free to $20/month.
+    </div>
+
+  </div>
+</section>
+
+<!-- Resources -->
+<section id="resources">
+  <div class="section">
+    <h2>Resources</h2>
+    <p class="subtitle">Quick links to everything mentioned in this wiki.</p>
+
+    <h3 style="color:var(--navy); margin-bottom:1rem;">Free AI Research Tools</h3>
+    <ul class="resource-list">
+      <li><a href="https://perplexity.ai" target="_blank" rel="noopener">Perplexity AI <small>AI search with sources &mdash; Free</small></a></li>
+      <li><a href="https://notebooklm.google.com" target="_blank" rel="noopener">Google NotebookLM <small>Document synthesis + Audio Overviews &mdash; Free</small></a></li>
+      <li><a href="https://consensus.app" target="_blank" rel="noopener">Consensus <small>What researchers agree on &mdash; Free</small></a></li>
+      <li><a href="https://elicit.com" target="_blank" rel="noopener">Elicit <small>AI research assistant &mdash; Free</small></a></li>
+      <li><a href="https://typeset.io" target="_blank" rel="noopener">SciSpace <small>Academic paper search + extraction &mdash; Free</small></a></li>
+      <li><a href="https://www.semanticscholar.org" target="_blank" rel="noopener">Semantic Scholar <small>200M+ academic papers &mdash; Free</small></a></li>
+      <li><a href="https://www.connectedpapers.com" target="_blank" rel="noopener">Connected Papers <small>Visual paper discovery &mdash; Free</small></a></li>
+      <li><a href="https://www.researchrabbit.ai" target="_blank" rel="noopener">ResearchRabbit <small>Paper recommendations &mdash; Free</small></a></li>
+    </ul>
+
+    <h3 style="color:var(--navy); margin: 2rem 0 1rem;">Premium AI Platforms</h3>
+    <ul class="resource-list">
+      <li><a href="https://chatgpt.com" target="_blank" rel="noopener">ChatGPT <small>OpenAI &mdash; Free / $20 mo (Deep Research requires Plus)</small></a></li>
+      <li><a href="https://claude.ai" target="_blank" rel="noopener">Claude <small>Anthropic &mdash; Free / $20 mo</small></a></li>
+      <li><a href="https://gemini.google.com" target="_blank" rel="noopener">Gemini <small>Google &mdash; Free / Paid (Deep Research requires Advanced)</small></a></li>
+    </ul>
+
+    <h3 style="color:var(--navy); margin: 2rem 0 1rem;">Frameworks &amp; Systems</h3>
+    <ul class="resource-list">
+      <li><a href="#creativo">CREATIVO Framework <small>8-dimension prompt engineering &mdash; scroll up</small></a></li>
+      <li><a href="https://obsidian.md" target="_blank" rel="noopener">Obsidian <small>Knowledge base platform used by HA Research &mdash; Free</small></a></li>
+    </ul>
+
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>
+    <strong>Caribbean Postal AI Wiki</strong><br>
+    MBTU &times; Caribbean Postal Union &bull; Masterclass: AI and Research<br>
+    Built with <strong>Horizons Architecture</strong> using the <strong>CREATIVO</strong> framework<br><br>
+    <em>&ldquo;You don&rsquo;t need a research department. You need the right tools and the right questions.&rdquo;</em><br><br>
+    Prof. Edgar Barroso &bull; Tecnol&oacute;gico de Monterrey &bull; February 2026
+  </p>
+</footer>
+
+</body>
+</html>
